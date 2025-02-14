@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker DApp - Ganache</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; text-align: center; padding: 20px; }
+        h1 { color: #63af4c; }
+        button { background-color: #4CAF50; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer; margin: 10px; }
+        button:hover { background-color: #45a049; }
+        .container { margin-top: 20px; }
+        .clicker-count { font-size: 15px; margin-top: 20px; color: #333; }
+        .click-count { font-size: 24px; margin-top: 10px; color: #333; }
+        
+    </style>
+</head>
+<body>
+    <h1>Clicker DApp - Connected to Ganache</h1>
+    <div class="container">
+        <button id="connectWallet">Connect to Ganache</button>
+        <button id="clickButton" disabled>Click</button>
+        <button id="getClickButton" disabled>Get Clicks</button>
+        <div class="clicker-count">
+            <p>Click Count: <span id="clickerCount">0</span></p>
+        <div class="click-count">
+            <p>Get Click Count: <span id="clickCount">0</span></p>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        let contract;
+        let userAccount;
+        let clickerCount = 0;
+
+        const ganacheRPC = "http://127.0.0.1:7545"; 
+        const contractAddress = "0xC13Bce2915d887369CD4402FE979E06F5Beb7833"; // Replace with actual contract address from Ganache
+        const contractABI = [
+            {
+                "inputs": [],
+                "name": "click",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "clickCount",
+                "outputs": [
+                    { "internalType": "uint256", "name": "", "type": "uint256" }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getClicks",
+                "outputs": [
+                    { "internalType": "uint256", "name": "", "type": "uint256" }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        async function connectGanache() {
+            try {
+                // Connect to Ganache RPC
+                web3 = new Web3(new Web3.providers.HttpProvider(ganacheRPC));
+
+                // Fetch accounts from Ganache
+                const accounts = await web3.eth.getAccounts();
+                userAccount = accounts[0]; // Use the first Ganache account
+
+                // Connect to deployed contract
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+
+                // Enable buttons
+                document.getElementById("connectWallet").innerText = `Connected: ${userAccount}`;
+                document.getElementById("clickButton").disabled = false;
+                document.getElementById("getClickButton").disabled = false;
+
+                console.log("✅ Connected to Ganache:", userAccount);
+            } catch (error) {
+                console.error("❌ Error connecting to Ganache:", error);
+            }
+        }
+
+        async function click() {
+            if (!contract || !userAccount) {
+                alert("Please connect to Ganache first!");
+                return;
+            }
+            try {
+                await contract.methods.click().send({ from: userAccount });
+                clickerCount++; // Increase count on every click
+                document.getElementById("clickerCount").innerText = clickerCount;
+           
+
+            } catch (error) {
+                console.error("❌ Error clicking:", error);
+            }
+        }
+
+        async function getClicks() {
+            if (!contract) {
+                alert("Please connect to Ganache first!");
+                return;
+            }
+            try {
+                const clickCount = await contract.methods.getClicks().call();
+                document.getElementById("clickCount").innerText = clickCount;
+                alert("Click Registered!"); 
+            } catch (error) {
+                console.error("❌ Error fetching clicks:", error);
+            }
+        }
+
+        // Event Listeners
+        document.getElementById("connectWallet").addEventListener("click", connectGanache);
+        document.getElementById("clickButton").addEventListener("click", click);
+        document.getElementById("getClickButton").addEventListener("click", getClicks);
+    </script>
+</body>
+</html>
