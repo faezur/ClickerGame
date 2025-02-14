@@ -37,34 +37,11 @@
         let clickerCount = 0;
 
         const ganacheRPC = "http://127.0.0.1:7545"; 
-        const contractAddress = "0xC13Bce2915d887369CD4402FE979E06F5Beb7833"; // Replace with actual contract address from Ganache
-        const contractABI = [
-            {
-                "inputs": [],
-                "name": "click",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "clickCount",
-                "outputs": [
-                    { "internalType": "uint256", "name": "", "type": "uint256" }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "getClicks",
-                "outputs": [
-                    { "internalType": "uint256", "name": "", "type": "uint256" }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ];
+      const contractConfig = {
+    contractAddress: "YOUR_CONTRACT_ADDRESS",
+    contractABI: YOUR_CONTRACT_ABI 
+};
+
 
         async function connectGanache() {
             try {
