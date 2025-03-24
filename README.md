@@ -25,3 +25,7 @@ Development Tools: Remix IDE
 4️⃣ Retrieve Clicks – The user can fetch the total number of clicks stored on the contract.
 
 
+## Gameplay Video
+[Watch Gameplay Video]([https://youtu.be/6TksblPR-io?si=jxIEVk9n1kQS7QJ0](https://youtube.com/shorts/5sWTJrkivYg))
+
+
