@@ -26,6 +26,6 @@ Development Tools: Remix IDE
 
 
 ## Gameplay Video
-[Watch Gameplay Video]([https://youtu.be/6TksblPR-io?si=jxIEVk9n1kQS7QJ0](https://youtube.com/shorts/5sWTJrkivYg))
+[Watch Gameplay Video](https://youtube.com/shorts/5sWTJrkivYg)
 
 
